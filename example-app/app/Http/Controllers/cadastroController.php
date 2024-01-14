@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class cadastroController extends Controller
 {
-    //
+    public function index() {
+        
+    }
 }

@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-// use 
-// use
-// use 
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\homeController;
+use App\Http\Controllers\cadastroController;
 
-Route::get('/', function () {return view('login');});
+Route::get('/', [loginController::class, 'index']);
 
-Route::get('/cadastro', function () {return view('cadastro');});
+Route::get('/cadastro', [cadastroController::class, 'index']);
 
-Route::get('/home', function () {return view('home');});
+Route::get('/home', [homeController::class, 'index']);
