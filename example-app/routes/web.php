@@ -2,12 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\loginController;
 use App\Http\Controllers\homeController;
-use App\Http\Controllers\cadastroController;
 
-Route::get('/', [loginController::class, 'index']);
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
-Route::get('/cadastro', [cadastroController::class, 'index']);
-
-Route::get('/home', [homeController::class, 'index']);
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
