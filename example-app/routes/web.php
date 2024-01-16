@@ -17,3 +17,6 @@ Route::middleware([
 });
 
 Route::post('/dashboard', [HomeController::class, 'store']);
+Route::delete('/dashboard/{id}', [HomeController::class, 'destroy']);
+Route::get('/dashboard/edit/{id}', [HomeController::class, 'edit']);
+Route::put('/dashboard/update/{id}', [HomeController::class, 'update']);

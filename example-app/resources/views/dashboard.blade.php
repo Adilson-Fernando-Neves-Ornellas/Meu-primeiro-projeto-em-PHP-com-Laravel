@@ -24,7 +24,7 @@
                 <option value="1">Sim</option>
             </select>
         </div>
-        <input type="submit" value="Salvar Contato">
+        <input type="submit" value="Salvar">
     </form>
     <br />
     <br />
@@ -45,6 +45,12 @@
         <h5 class="card-title">nome: {{ $contato->nome }}</h5>
         <h5 class="card-title">numero: {{ $contato->numero }}</h5>
         <h5 class="card-title">Tem whatsapp: {{ $contato->whatsapp }}</h5>
+        <a href="/dashboard/edit/{{ $contato->id }}">Editar</a>
+        <form action="/dashboard/{{ $contato->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit"> Deletar </button>
+        </form>
     </div>
     @endforeach
 

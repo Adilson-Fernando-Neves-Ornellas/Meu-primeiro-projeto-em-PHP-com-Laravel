@@ -7,6 +7,7 @@ use App\Models\contact;
 
 class HomeController extends Controller
 {
+    // mostrar
     public function index(){
         
         $user = auth()->user();
@@ -27,6 +28,7 @@ class HomeController extends Controller
         return view('dashboard',['contatos' => $contatos, 'search' => $search]);
     }
     
+    // adicionar
     public function store(Request $request) {
 
         $user = auth()->user();
@@ -40,5 +42,36 @@ class HomeController extends Controller
         
         return redirect('/dashboard')->with('msg', 'Contato adicionado com sucesso!');
     }
+    
+    // deletar
+    public function destroy($id) {
+
+        contact::findOrFail($id)->delete();
+
+        return redirect('/dashboard')->with('msg', 'Contato excluído com sucesso!');
+
+    }
+
+    // editar (primeiro acha o contato pelo id)
+    public function edit($id) {
+
+        $contato = contact::findOrFail($id);
+
+        return view('edit', ['contato' => $contato]);
+
+    }
+
+    // (quando clicar em salvar edição, pega os valores do input e substitue com o que tem no banco)
+    public function update(Request $request) {
+
+        $data = $request->all();
+
+        contact::findOrFail($request->id)->update($data);
+
+        return redirect('/dashboard')->with('msg', 'Contato editado com sucesso!');
+
+    }
+
+    
     
 }
