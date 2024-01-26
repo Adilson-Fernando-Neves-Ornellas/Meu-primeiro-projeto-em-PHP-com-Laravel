@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\contact;
 
@@ -29,9 +30,10 @@ class HomeController extends Controller
     }
     
     // adicionar
-    public function store(Request $request) {
+    public function store(ContactRequest $request) {
 
         $user = auth()->user();
+        $request->validated();
         $contato = new contact;
 
         $contato->nome = $request->nome;
@@ -40,7 +42,7 @@ class HomeController extends Controller
         $contato->user_id = $user->id;
         $contato->save();
         
-        return redirect('/dashboard')->with('msg', 'Contato adicionado com sucesso!');
+        return redirect('/dashboard')->with('success', 'Contato adicionado com sucesso!');
     }
     
     // deletar
@@ -48,7 +50,7 @@ class HomeController extends Controller
 
         contact::findOrFail($id)->delete();
 
-        return redirect('/dashboard')->with('msg', 'Contato excluído com sucesso!');
+        return redirect('/dashboard')->with('success', 'Contato excluído com sucesso!');
 
     }
 
@@ -62,10 +64,10 @@ class HomeController extends Controller
     }
 
     // (quando clicar em salvar edição, pega os valores do input e substitue com o que tem no banco)
-    public function update(Request $request) {
+    public function update(ContactRequest $request) {
 
+        $request->validated();
         $data = $request->all();
-
         contact::findOrFail($request->id)->update($data);
 
         return redirect('/dashboard')->with('msg', 'Contato editado com sucesso!');

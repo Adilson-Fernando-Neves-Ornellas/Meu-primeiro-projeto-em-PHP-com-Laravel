@@ -1,9 +1,7 @@
 <x-app-layout>
-    <div>
-        @if(session('msg'))
-        <p class="bg-green-400 text-white font-bold py-2 px-4 text-center">{{ session('msg') }}</p>
-        @endif
-    </div>
+
+    <x-alert />
+
     <section class=" flex flex-col justify-center items-center">
         <div class=" w-2/3">
             <form class=" flex flex-col justify-center items-center gap-2" action="/dashboard" method="POST">
@@ -15,14 +13,14 @@
                 </div>
                 <div class=" flex gap-1 items-center w-full">
                     <label for="numero">Numero:</label>
-                    <input class=" rounded-lg w-full" type="text" id="numero" name="numero"
+                    <input class=" rounded-lg w-full" type="Number" id="numero" name="numero"
                         placeholder="Digite o numero">
                 </div>
                 <div class=" flex gap-1  justify-center  items-center w-full">
                     <label for="whatsapp">Tem whatsapp?</label>
-                    <select class=" rounded-lg" name="whatsapp" id="whatsapp">
-                        <option value="0">Não</option>
-                        <option value="1">Sim</option>
+                    <select class=" rounded-lg appearance-none w-16 p-1" name="whatsapp" id="whatsapp">
+                        <option value="0"> Não</option>
+                        <option value="1"> Sim</option>
                     </select>
                 </div>
                 <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full text-center"
@@ -32,7 +30,7 @@
             <h2>Pesquise por um contato especifico</h2>
             <form class="flex gap-1" action="/dashboard" method="GET">
                 <input class=" rounded-lg w-4/5" type="text" id="search" name="search" placeholder="Procurar...">
-                <input class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded " type="submit"
+                <input class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-1/5" type="submit"
                     value="Procurar">
             </form>
             @if($search)
@@ -51,14 +49,14 @@
                     <h5 class="card-title">Nome: {{ $contato->nome }}</h5>
                     <h5 class="card-title">Numero: {{ $contato->numero }}</h5>
                     <h5 class="card-title">Tem whatsapp: {{ $contato->whatsapp == 1 ? 'Sim' : 'Não' }}</h5>
-                    <form class="flex gap-1" action="/dashboard/{{ $contato->id }}" method="POST">
+                    <form id="formExcluir{{ $contato->id }}" class="flex gap-1" action="/dashboard/{{ $contato->id }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full text-center"
                             href="/dashboard/edit/{{ $contato->id }}">Editar</a>
                         <button
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full text-center"
-                            type="submit">
+                            type="submit" onclick="confirmarExclusao(event, {{ $contato->id }})">
                             Deletar
                         </button>
                     </form>
